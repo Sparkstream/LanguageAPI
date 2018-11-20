@@ -11,6 +11,7 @@ namespace LanguageAPI.Models
         public int Id { get; set; }
         
         public int userId { get; set; }
+        public int rank { get; set; }
         public string languageName { get; set; }
         public string languageCode { get; set; }
         public string word { get; set; }

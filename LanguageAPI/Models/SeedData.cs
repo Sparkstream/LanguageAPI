@@ -24,12 +24,14 @@ namespace LanguageAPI.Models
                     new LanguageItem
                     {
                         userId = 0,
+                        rank = 1,
                         languageName = "Chinese (Simplified)",
                         languageCode = "zh-CN",
                         word = "你好"
                     },
                     new LanguageItem { 
                         userId = 0,
+                        rank = 2,
                         languageName = "Chinese (Simplified)",
                         languageCode = "zh-CN",
                         word = "你在做什么？"
