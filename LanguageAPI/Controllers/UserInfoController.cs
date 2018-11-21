@@ -48,11 +48,20 @@ namespace LanguageAPI.Controllers
             {
                 return UnprocessableEntity();
             }
+            var exists = await _context.UserInfo.Where(u =>
+                u.username == _userInfo.username
+            ).AnyAsync();
+
+            if (exists)
+            {
+                return Conflict();
+            }
             UserInfo userInfo = new UserInfo()
             {
                 username = _userInfo.username,
                 password = _userInfo.password
             };
+            
             _context.UserInfo.Add(userInfo);
             await _context.SaveChangesAsync();
             return Ok();

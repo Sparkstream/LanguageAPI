@@ -213,5 +213,30 @@ namespace UnitTestLanguageAPI
                 context.SaveChanges();
             }
         }
+
+        [TestMethod]
+        public async Task testRegisterExistingUser()
+        {
+            using (var context = new LanguageAPIContext(options)){
+
+                //Given
+                UserInfo user = new UserInfo()
+                {
+                    username = "Sparkstream",
+                    password = "abcd1234"
+                };
+
+                //When
+                UserInfoController userInfoController = new UserInfoController(context);
+                IActionResult result = await userInfoController.RegisterUser(user);
+
+                //Then
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(ConflictResult));
+
+                var userList = await context.UserInfo.Where(l => l.username == user.username).ToListAsync();
+                Assert.AreEqual(1,userList.Count);
+            }
+        }
     }
 }
