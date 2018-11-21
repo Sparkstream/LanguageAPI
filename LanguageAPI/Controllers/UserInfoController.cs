@@ -25,7 +25,7 @@ namespace LanguageAPI.Controllers
         {
             var id = userInfo.Id;
             var user = await _context.UserInfo.FindAsync(id);
-            if((user.username != userInfo.username) || (user.password != userInfo.password)) 
+            if((user.username != userInfo.username) || (user.password != userInfo.password) || !UserInfoExists(id)) 
             {
                 return Unauthorized();
             }
@@ -36,6 +36,10 @@ namespace LanguageAPI.Controllers
         [Route("/user")]
         public async Task<IActionResult> RegisterUser([FromForm] UserInfo userInfo)
         {
+            if(string.IsNullOrEmpty(userInfo.password) || string.IsNullOrEmpty(userInfo.username))
+            {
+                return UnprocessableEntity();
+            }
             _context.UserInfo.Add(userInfo);
             await _context.SaveChangesAsync();
             return Ok();
