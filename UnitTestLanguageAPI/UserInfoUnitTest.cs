@@ -158,7 +158,6 @@ namespace UnitTestLanguageAPI
                 //Given
                 UserInfo user = new UserInfo()
                 {
-                    Id = 1,
                     username = "Sparkstream",
                     password = "1234"
                 };
@@ -192,7 +191,6 @@ namespace UnitTestLanguageAPI
                 //Given
                 UserInfo user = new UserInfo()
                 {
-                    Id = 1,
                     username = "Maestro",
                     password = "abcd1234"
                 };
@@ -209,7 +207,7 @@ namespace UnitTestLanguageAPI
 
                 Assert.IsNull(dbUser);
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(UnauthorizedResult));
+                Assert.IsInstanceOfType(result, typeof(BadRequestResult));
                 Assert.IsTrue(!userExists);
 
                 context.SaveChanges();

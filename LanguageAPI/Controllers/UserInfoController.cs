@@ -23,9 +23,17 @@ namespace LanguageAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AuthenticateUser([FromBody]UserInfo userInfo)
         {
-            var id = userInfo.Id;
-            var user = await _context.UserInfo.FindAsync(id);
-            if((user.username != userInfo.username) || (user.password != userInfo.password) || !UserInfoExists(id)) 
+            //Check if user exists
+            var user = await _context.UserInfo.Where(u =>
+                u.username == userInfo.username
+            ).FirstOrDefaultAsync();
+            //Doesnt then bad request
+            if(user == null)
+            {
+                return BadRequest();
+            }
+            //Wrong password then return unauthorized
+            if((user.username != userInfo.username) || (user.password != userInfo.password)) 
             {
                 return Unauthorized();
             }
@@ -33,13 +41,18 @@ namespace LanguageAPI.Controllers
         }
 
         [HttpPost]
-        [Route("/user")]
-        public async Task<IActionResult> RegisterUser([FromForm] UserInfo userInfo)
+        [Route("user")]
+        public async Task<IActionResult> RegisterUser([FromForm] UserInfo _userInfo)
         {
-            if(string.IsNullOrEmpty(userInfo.password) || string.IsNullOrEmpty(userInfo.username))
+            if(string.IsNullOrEmpty(_userInfo.password) || string.IsNullOrEmpty(_userInfo.username))
             {
                 return UnprocessableEntity();
             }
+            UserInfo userInfo = new UserInfo()
+            {
+                username = _userInfo.username,
+                password = _userInfo.password
+            };
             _context.UserInfo.Add(userInfo);
             await _context.SaveChangesAsync();
             return Ok();
