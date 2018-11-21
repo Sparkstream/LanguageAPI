@@ -24,6 +24,8 @@ namespace LanguageAPI.Migrations
 
                     b.Property<string>("languageName");
 
+                    b.Property<int>("rank");
+
                     b.Property<int>("userId");
 
                     b.Property<string>("word");
@@ -31,6 +33,20 @@ namespace LanguageAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LanguageItem");
+                });
+
+            modelBuilder.Entity("LanguageAPI.Models.UserInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("password");
+
+                    b.Property<string>("username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserInfo");
                 });
 #pragma warning restore 612, 618
         }

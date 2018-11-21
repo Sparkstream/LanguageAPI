@@ -16,24 +16,16 @@ namespace LanguageAPI.Controllers
     public class LanguageItemsController : ControllerBase
     {
         private readonly LanguageAPIContext _context;
-        private IConfiguration _configuration;
+ 
 
-        public LanguageItemsController(LanguageAPIContext context,IConfiguration configuration)
+        public LanguageItemsController(LanguageAPIContext context)
         {
             _context = context;
-            _configuration = configuration;
-        }
-
-        // GET: api/LanguageItems
-        [HttpGet]
-        public IEnumerable<LanguageItem> GetLanguageItem()
-        {
-            return _context.LanguageItem;
+            
         }
 
         [HttpGet]
-        [Route("get")]
-        public async Task<IActionResult> retrieveAllWords([FromBody] LanguageItem languageItem)
+        public async Task<IActionResult> RetrieveAllWords([FromBody] LanguageItem languageItem)
         {
             IQueryable<LanguageItem> _languageItem = from l in _context.LanguageItem
                                 where l.userId == languageItem.userId
@@ -46,28 +38,34 @@ namespace LanguageAPI.Controllers
 
         //Add cookies
         [HttpGet]
-        [Route("test/{id}")]
-        public async Task<IActionResult> retrieveFavouriteWords(int id)
+        [Route("{id}")]
+        public async Task<IActionResult> RetrieveFavouriteWords(int id)
         {
             IQueryable<LanguageItem> _languageItem = from l in _context.LanguageItem
                                                      where l.userId == id
                                                      select l;
             
             var response = await _languageItem.ToListAsync();
-            if(response[0] != null)
-            {
-                return NoContent();
-            }
-            //var _languageItem = await _context.LanguageItem.FindAsync(languageItem.userId);
-            return Ok(response[0]);
+            return Ok(response);
+            
         }
 
         [HttpPost]
-        public async Task<IActionResult> addFavouriteWord([FromBody]LanguageItem languageItem)
+        public async Task<IActionResult> AddFavouriteWord([FromBody]LanguageItem languageItem)
         {
             if (!ValidData.isValidDatabaseEntry(languageItem))
             {
                 return BadRequest();
+            }
+            var exists = await _context.LanguageItem.Where(l =>
+                l.userId == languageItem.userId &&
+                l.languageName == languageItem.languageName &&
+                l.languageCode == languageItem.languageCode &&
+                l.word == languageItem.word
+            ).AnyAsync();
+            if (exists)
+            {
+                return Conflict();
             }
             _context.LanguageItem.Add(languageItem);
             await _context.SaveChangesAsync();
@@ -75,8 +73,9 @@ namespace LanguageAPI.Controllers
 
         }
 
+        //Language name or code MUST BE SENT
         [HttpPut]
-        public async Task<IActionResult> changeRanking([FromBody]LanguageItem languageItem)
+        public async Task<IActionResult> ChangeRanking([FromBody]LanguageItem languageItem)
         {
             //Find all words for that language for that user
             var rank = languageItem.rank;
@@ -95,9 +94,36 @@ namespace LanguageAPI.Controllers
                 }
             });
             await _context.SaveChangesAsync();
-            return Ok();
+            return NoContent();
         }
         
+        //Give a id of an item to remove
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteWord(int id)
+        {
+            if (!LanguageItemExists(id))
+            {
+                return NotFound();
+            }
+            var languageItem = _context.LanguageItem.Find(id);
+
+            var languageItems = await _context.LanguageItem.Where(l =>
+            l.userId == languageItem.userId
+            && l.languageName == languageItem.languageName).ToListAsync();
+
+            _context.LanguageItem.Remove(languageItem);
+
+            languageItems.ForEach(l =>
+            {
+                if (l.rank >= languageItem.rank)
+                {
+                    l.rank--;
+                }
+            });
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
 
         private bool LanguageItemExists(int id)
         {

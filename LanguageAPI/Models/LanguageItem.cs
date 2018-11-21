@@ -9,7 +9,6 @@ namespace LanguageAPI.Models
     public class LanguageItem
     {
         public int Id { get; set; }
-        
         public int userId { get; set; }
         public int rank { get; set; }
         public string languageName { get; set; }

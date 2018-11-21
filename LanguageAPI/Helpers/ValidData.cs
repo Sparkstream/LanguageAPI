@@ -10,19 +10,21 @@ namespace LanguageAPI.Helpers
     {
         public static bool isValidDatabaseEntry(LanguageItem languageItem)
         {
-            if(languageItem.languageCode == null)
+            if (languageItem.languageCode == null)
             {
                 return false;
             }
-            if(languageItem.languageName == null)
+            if (languageItem.languageName == null)
             {
                 return false;
             }
-            if(languageItem.rank == 0)
+            if (languageItem.rank == 0)
             {
                 return false;
             }
             return true;
         }
+
+      
     }
 }
