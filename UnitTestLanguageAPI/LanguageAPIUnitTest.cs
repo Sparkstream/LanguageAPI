@@ -208,10 +208,29 @@ namespace UnitTestLanguageAPI
                 var languageItems = checkResponse.Value as List<LanguageItem>;
                 for(var i = 0; i < languageItems.Count; i++)
                 {
-                    Assert.AreEqual(languageItems[i].languageName,languageItemList[i].languageName);
-                    Assert.AreEqual(languageItems[i].languageCode, languageItemList[i].languageCode);
-                    Assert.AreEqual(languageItems[i].rank, languageItemList[i].rank);
-                    Assert.AreEqual(languageItems[i].word, languageItemList[i].word);
+                    bool matchFound = false;
+                    for(var j = 0; j < languageItems.Count; j++)
+                    {
+                        
+                        if(languageItems[i].languageName == languageItemList[j].languageName)
+                        {
+                            matchFound = true;
+                        }
+                        if (languageItems[i].languageCode == languageItemList[j].languageCode)
+                        {
+                            matchFound = true;
+                        }
+                        if (languageItems[i].rank == languageItemList[j].rank)
+                        {
+                            matchFound = true;
+                        }
+                        if (languageItems[i].word == languageItemList[j].word)
+                        {
+                            matchFound = true;
+                        }
+                        
+                    }
+                    Assert.IsTrue(matchFound);
                 }
                 
             }
