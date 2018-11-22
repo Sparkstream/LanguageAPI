@@ -24,6 +24,13 @@ namespace LanguageAPI.Controllers
             
         }
 
+        // GET: api/LanguageItems
+        [HttpGet]
+        public IEnumerable<LanguageItem> GetLanguageItem()
+        {
+            return _context.LanguageItem;
+        }
+
         [HttpGet]
         public async Task<IActionResult> RetrieveAllWords([FromBody] LanguageItem languageItem)
         {

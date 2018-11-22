@@ -20,6 +20,13 @@ namespace LanguageAPI.Controllers
             _context = context;
         }
 
+        // GET: api/LanguageItems
+        [HttpGet]
+        public IEnumerable<UserInfo> GetLanguageItem()
+        {
+            return _context.UserInfo;
+        }
+
         [HttpPost]
         public async Task<IActionResult> AuthenticateUser([FromBody]UserInfo userInfo)
         {
@@ -68,7 +75,7 @@ namespace LanguageAPI.Controllers
         }
 
         [HttpPut]
-        [Route("/update")]
+        [Route("update")]
         public async Task<IActionResult> UpdateUser([FromBody] UserInfo userInfo)
         {
             var user = _context.UserInfo.Find(userInfo.Id);
