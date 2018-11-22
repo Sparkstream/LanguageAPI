@@ -45,7 +45,11 @@ namespace LanguageAPI.Controllers
                 return Unauthorized();
             }
             
-            return Ok(user);
+            return Ok(new UserInfo()
+            {
+                Id = user.Id
+            }
+            );
         }
 
         [HttpPost]
