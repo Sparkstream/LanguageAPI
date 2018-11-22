@@ -18,10 +18,6 @@ namespace LanguageAPI.Helpers
             {
                 return false;
             }
-            if (languageItem.rank == 0)
-            {
-                return false;
-            }
             return true;
         }
 

@@ -73,6 +73,19 @@ namespace LanguageAPI.Controllers
             {
                 return Conflict();
             }
+            var item = await _context.LanguageItem.Where(l =>
+                l.userId == languageItem.userId &&
+                l.languageName == languageItem.languageName &&
+                l.languageCode == languageItem.languageCode
+            ).OrderByDescending(l => l.rank).FirstOrDefaultAsync();
+            if (item.rank == 0)
+            {
+                languageItem.rank = 1;
+            }
+            else
+            {
+                languageItem.rank = item.rank + 1;
+            }
             _context.LanguageItem.Add(languageItem);
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetLanguageItem", languageItem);
