@@ -26,6 +26,7 @@ namespace LanguageAPI.Controllers
 
         // GET: api/LanguageItems
         [HttpGet]
+        [Route("/test")]
         public IEnumerable<LanguageItem> GetLanguageItem()
         {
             return _context.LanguageItem;
