@@ -26,25 +26,11 @@ namespace LanguageAPI.Controllers
 
         // GET: api/LanguageItems
         [HttpGet]
-        [Route("/test/test")]
         public IEnumerable<LanguageItem> GetLanguageItem()
         {
             return _context.LanguageItem;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> RetrieveAllWords([FromBody] LanguageItem languageItem)
-        {
-            IQueryable<LanguageItem> _languageItem = from l in _context.LanguageItem
-                                where l.userId == languageItem.userId
-                                select l;
-            var response =  await _languageItem.ToListAsync();
-
-           //var _languageItem = await _context.LanguageItem.FindAsync(languageItem.userId);
-            return Ok(response);
-        }
-
-        //Add cookies
         [HttpGet]
         [Route("{id}/{language}")]
         public async Task<IActionResult> RetrieveFavouriteWords(int id,string language)
