@@ -22,7 +22,7 @@ namespace LanguageAPI.Controllers
 
         // GET: api/LanguageItems
         [HttpGet]
-        public IEnumerable<UserInfo> GetLanguageItem()
+        public IEnumerable<UserInfo> GetUsers()
         {
             return _context.UserInfo;
         }
@@ -44,7 +44,7 @@ namespace LanguageAPI.Controllers
             {
                 return Unauthorized();
             }
-            return Ok();
+            return Ok(user.Id);
         }
 
         [HttpPost]

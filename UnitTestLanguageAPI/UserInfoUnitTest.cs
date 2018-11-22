@@ -140,7 +140,7 @@ namespace UnitTestLanguageAPI
                 ).FirstOrDefaultAsync();
 
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(OkResult));
+                Assert.IsInstanceOfType(result, typeof(OkObjectResult));
                 Assert.IsTrue(userExists);
 
                 Assert.AreEqual(dbUser.username, user.username);
