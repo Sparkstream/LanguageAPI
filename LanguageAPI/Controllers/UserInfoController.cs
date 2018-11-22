@@ -42,7 +42,7 @@ namespace LanguageAPI.Controllers
 
         [HttpPost]
         [Route("user")]
-        public async Task<IActionResult> RegisterUser([FromForm] UserInfo _userInfo)
+        public async Task<IActionResult> RegisterUser([FromBody] UserInfo _userInfo)
         {
             if(string.IsNullOrEmpty(_userInfo.password) || string.IsNullOrEmpty(_userInfo.username))
             {
@@ -69,7 +69,7 @@ namespace LanguageAPI.Controllers
 
         [HttpPut]
         [Route("/update")]
-        public async Task<IActionResult> UpdateUser([FromForm] UserInfo userInfo)
+        public async Task<IActionResult> UpdateUser([FromBody] UserInfo userInfo)
         {
             var user = _context.UserInfo.Find(userInfo.Id);
             user.password = userInfo.password;
