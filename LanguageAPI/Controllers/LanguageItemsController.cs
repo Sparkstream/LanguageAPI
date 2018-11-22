@@ -78,7 +78,8 @@ namespace LanguageAPI.Controllers
                 l.languageName == languageItem.languageName &&
                 l.languageCode == languageItem.languageCode
             ).OrderByDescending(l => l.rank).FirstOrDefaultAsync();
-            if (item.rank == 0)
+            
+            if (item == null)
             {
                 languageItem.rank = 1;
             }
