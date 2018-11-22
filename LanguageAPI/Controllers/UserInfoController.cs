@@ -89,10 +89,10 @@ namespace LanguageAPI.Controllers
             return Ok();
         }
         [HttpGet]
-        [Route("username")]
-        public async Task<IActionResult> GetUsername([FromBody] UserInfo _userInfo)
+        [Route("username/{id}")]
+        public async Task<IActionResult> GetUsername([FromRoute] int id)
         {
-            var user = await _context.UserInfo.FindAsync(_userInfo.Id);
+            var user = await _context.UserInfo.FindAsync(id);
             UserInfo userInfo = new UserInfo()
             {
                 Id = user.Id,
