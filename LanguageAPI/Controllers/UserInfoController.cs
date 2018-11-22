@@ -88,6 +88,20 @@ namespace LanguageAPI.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+        [HttpGet]
+        [Route("username")]
+        public async Task<IActionResult> GetUsername([FromBody] UserInfo _userInfo)
+        {
+            var user = await _context.UserInfo.FindAsync(_userInfo.Id);
+            UserInfo userInfo = new UserInfo()
+            {
+                Id = user.Id,
+                username = user.username
+          
+            };
+
+            return Ok(userInfo);
+        }
 
         private bool UserInfoExists(int id)
         {

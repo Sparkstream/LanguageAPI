@@ -18,6 +18,10 @@ namespace LanguageAPI.Helpers
             {
                 return false;
             }
+            if(languageItem.word == null)
+            {
+                return false;
+            }
             return true;
         }
 
