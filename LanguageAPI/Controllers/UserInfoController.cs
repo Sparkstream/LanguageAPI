@@ -46,9 +46,9 @@ namespace LanguageAPI.Controllers
             }
             
             return Ok(new UserInfo()
-            {
-                Id = user.Id
-            }
+                {
+                    Id = user.Id
+                }
             );
         }
 

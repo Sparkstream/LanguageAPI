@@ -46,16 +46,28 @@ namespace LanguageAPI.Controllers
 
         //Add cookies
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> RetrieveFavouriteWords(int id)
+        [Route("{id}/{language}")]
+        public async Task<IActionResult> RetrieveFavouriteWords(int id,string language)
         {
             IQueryable<LanguageItem> _languageItem = from l in _context.LanguageItem
-                                                     where l.userId == id
+                                                     where l.userId == id && l.languageName == language
                                                      select l;
             
             var response = await _languageItem.ToListAsync();
             return Ok(response);
             
+        }
+
+        [HttpGet]
+        [Route("{id}/getLanguages")]
+        public async Task<IActionResult> RetrieveLanguagesAvailable(int id)
+        {
+            var _languages = await _context.LanguageItem.Where(l =>
+              l.userId == id
+            ).Select(c => c.languageName).Distinct().ToListAsync();
+            
+            return Ok(_languages);
+
         }
 
         [HttpPost]

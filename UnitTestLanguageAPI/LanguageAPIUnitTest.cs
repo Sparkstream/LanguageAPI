@@ -196,7 +196,7 @@ namespace UnitTestLanguageAPI
 
                 //When
                 LanguageItemsController languageItemsController = new LanguageItemsController(context);
-                IActionResult result = await languageItemsController.RetrieveFavouriteWords(languageItem1.userId);
+                IActionResult result = await languageItemsController.RetrieveFavouriteWords(languageItem1.userId,languageItem1.languageName);
                 
                 //Then
                 Assert.IsInstanceOfType(result, typeof(OkObjectResult));
