@@ -44,7 +44,8 @@ namespace LanguageAPI.Controllers
             {
                 return Unauthorized();
             }
-            return Ok(user.Id);
+            
+            return Ok(user);
         }
 
         [HttpPost]
