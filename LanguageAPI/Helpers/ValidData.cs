@@ -18,7 +18,7 @@ namespace LanguageAPI.Helpers
             {
                 return false;
             }
-            if(languageItem.word == null)
+            if(languageItem.word == null || languageItem.word == "")
             {
                 return false;
             }
